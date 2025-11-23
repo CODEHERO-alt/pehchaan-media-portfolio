@@ -22,10 +22,8 @@ const youtubeSamples = [
 ];
 
 export default function YouTubeWorkPage() {
-  // useWorkFilter must return { filteredItems, FilterBar }
-  const { filteredItems, FilterBar } = useWorkFilter(youtubeSamples);
+  const { filteredItems, typeFilter, setTypeFilter } = useWorkFilter(youtubeSamples);
 
-  // WorkCategoryLayout expects a `category` object
   const category = {
     title: "YouTube Production",
     description:
@@ -33,8 +31,43 @@ export default function YouTubeWorkPage() {
     media: filteredItems,
   };
 
+  const filterControls = (
+    <div className="flex items-center gap-2 text-xs md:text-sm">
+      <button
+        onClick={() => setTypeFilter("all")}
+        className={`px-3 py-1 rounded-full border transition ${
+          typeFilter === "all"
+            ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+            : "border-white/10 text-white/70 hover:border-white/30"
+        }`}
+      >
+        All
+      </button>
+      <button
+        onClick={() => setTypeFilter("image")}
+        className={`px-3 py-1 rounded-full border transition ${
+          typeFilter === "image"
+            ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+            : "border-white/10 text-white/70 hover:border-white/30"
+        }`}
+      >
+        Images
+      </button>
+      <button
+        onClick={() => setTypeFilter("video")}
+        className={`px-3 py-1 rounded-full border transition ${
+          typeFilter === "video"
+            ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+            : "border-white/10 text-white/70 hover:border-white/30"
+        }`}
+      >
+        Videos
+      </button>
+    </div>
+  );
+
   return (
-    <WorkCategoryLayout category={category} filterControls={<FilterBar />}>
+    <WorkCategoryLayout category={category} filterControls={filterControls}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {filteredItems.map((item, idx) => (
           <MediaItem key={idx} item={item} />
