@@ -19,7 +19,7 @@ export const staggerContainer = (stagger = 0.05) => ({
   },
 });
 
-// Card hover (used by WorkItemLargeCard, WorkSampleCard, etc.)
+// Card hover
 export const cardHover = {
   initial: { opacity: 0, y: 20, scale: 0.96 },
   animate: {
@@ -35,7 +35,7 @@ export const cardHover = {
   },
 };
 
-// Hero animations (WorkHeroNew)
+// Hero animations
 export const heroContainer = {
   initial: { opacity: 0, y: 16 },
   animate: {
@@ -87,29 +87,31 @@ export const heroGlowOrbs = {
     y: [0, -8, 4, 0],
     transition: {
       delay: 0.3 + i * 0.2,
-      duration: 8 + i * 1.5,
+      duration: 6 + i * 1.5,
       repeat: Infinity,
+      repeatType: "mirror",
       ease: "easeInOut",
     },
   }),
 };
 
-// Vertical trails in hero
+// Trails
 export const heroTrails = {
   initial: { opacity: 0, y: 40 },
   animate: (i = 0) => ({
     opacity: [0, 1, 0],
     y: [-40, 40],
     transition: {
-      delay: 0.4 + i * 0.15,
-      duration: 3 + i * 0.2,
+      delay: 0.3 + i * 0.1,
+      duration: 2.4 + i * 0.2,
       repeat: Infinity,
+      repeatType: "loop",
       ease: "easeInOut",
     },
   }),
 };
 
-// Pills (e.g., "View" pill variant in WorkCategoryShowcase)
+// Pill animation
 export const pillVariant = {
   initial: { scale: 1, opacity: 1 },
   animate: {
@@ -159,7 +161,7 @@ export const filterChipChild = {
   },
 };
 
-// Thumb reveal (CaseStudyThumbGrid)
+// Thumbnail reveal
 export const thumbReveal = {
   initial: { opacity: 0, y: 20, scale: 0.96 },
   animate: {
@@ -170,7 +172,7 @@ export const thumbReveal = {
   },
 };
 
-// Modal variants (WorkModalView)
+// Modal animations
 export const modalBackdrop = {
   initial: { opacity: 0 },
   animate: {
