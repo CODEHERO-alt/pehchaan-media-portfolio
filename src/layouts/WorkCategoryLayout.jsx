@@ -3,32 +3,60 @@ import React from "react";
 
 /**
  * WorkCategoryLayout
+ *
  * Props:
- *  - category: { title, description }
- *  - children: media grid
- *  - filterControls: optional area for filter buttons (pass your filter UI)
+ *  - category: {
+ *      title: string,
+ *      description?: string,
+ *      media?: array
+ *    }
+ *  - children: ReactNode (media grid)
+ *  - filterControls?: ReactNode (filter UI)
  */
-export default function WorkCategoryLayout({ category = {}, children, filterControls }) {
+
+export default function WorkCategoryLayout({
+  category = {},
+  children,
+  filterControls
+}) {
+  const { title, description, media = [] } = category;
+
   return (
-    <main className="work-category-page min-h-screen">
-      <header className="max-w-7xl mx-auto px-6 py-12">
+    <main className="work-category-page min-h-screen w-full">
+      {/* ---- Header ---- */}
+      <header className="max-w-7xl mx-auto px-6 pt-20 pb-12">
         <div className="mb-6">
-          <h1 className="text-4xl font-semibold tracking-tight">{category.title}</h1>
-          {category.description && (
-            <p className="mt-2 text-gray-500 max-w-2xl">{category.description}</p>
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">
+            {title || "Untitled Category"}
+          </h1>
+
+          {/* Description */}
+          {description && (
+            <p className="mt-3 text-gray-500 max-w-2xl leading-relaxed">
+              {description}
+            </p>
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
-          {/* Left: filter controls (passed from page) */}
-          <div>{filterControls}</div>
+        {/* ---- Top Controls Row ---- */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-6">
+          {/* Filter Controls (left) */}
+          <div className="flex-shrink-0">{filterControls}</div>
 
-          {/* Right: small meta */}
-          <div className="text-sm text-gray-500">Showing {category.media?.length ?? 0} samples</div>
+          {/* Meta (right) */}
+          <div className="text-sm text-gray-400 whitespace-nowrap">
+            {media.length > 0
+              ? `Showing ${media.length} samples`
+              : "No samples available"}
+          </div>
         </div>
       </header>
 
-      <section className="max-w-7xl mx-auto px-6 pb-20">{children}</section>
+      {/* ---- Content Grid ---- */}
+      <section className="max-w-7xl mx-auto px-6 pb-24">
+        {children}
+      </section>
     </main>
   );
 }
