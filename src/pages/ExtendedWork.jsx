@@ -81,7 +81,7 @@ export default function ExtendedWork() {
                 >
                   <Link
                     to={`/work/${cat.slug}`}
-                    className="group block w-full rounded-[30px] overflow-hidden bg-[#04060d] border border-white/6 shadow-[0_22px_55px_rgba(0,0,0,0.78)] hover:shadow-[0_26px_65px_rgba(0,193,255,0.5)] transition-all duration-300 transform-gpu hover:-translate-y-[5px]"
+                    className="group block w-full rounded-[30px] overflow-hidden bg-[#04060d] shadow-[0_22px_55px_rgba(0,0,0,0.78)] hover:shadow-[0_26px_65px_rgba(0,193,255,0.5)] transition-all duration-300 transform-gpu hover:-translate-y-[5px]"
                     aria-label={`Open ${cat.title}`}
                   >
                     {/* Bigger & slightly taller container */}
