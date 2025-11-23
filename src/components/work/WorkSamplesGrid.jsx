@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 export default function WorkSamplesGrid({
   items,
-  layout = "grid", // 'grid' | 'masonry' (for future)
+  layout = "grid",
   title = "Curated samples",
 }) {
   const [activeItem, setActiveItem] = useState(null);
@@ -37,8 +37,8 @@ export default function WorkSamplesGrid({
             {title}
           </h3>
           <p className="text-xs text-white/50 mt-1">
-            Showing{" "}
-            <span className="font-semibold">{items.length}</span> pieces from the extended archive.
+            Showing <span className="font-semibold">{items.length}</span> pieces
+            from the extended archive.
           </p>
         </div>
       </div>
@@ -52,13 +52,12 @@ export default function WorkSamplesGrid({
         <AnimatePresence mode="popLayout">
           {items.map((item) => (
             <motion.div key={item.id} layout>
-              <WorkSampleCard item={item} onClick={setActiveItem} />
+              <WorkSampleCard item={item} onOpen={setActiveItem} />
             </motion.div>
           ))}
         </AnimatePresence>
       </motion.div>
 
-      {/* Modal view */}
       <WorkModalView
         open={!!activeItem}
         item={activeItem}
