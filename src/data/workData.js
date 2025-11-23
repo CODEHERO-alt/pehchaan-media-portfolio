@@ -52,14 +52,14 @@ export const WORK_CATEGORIES = [
     slug: "motion-design",
     title: "Motion Design",
     description: "Animation and motion identity work for digital screens.",
-    hero: `${IMAGE_PLACEHOLDER}Motion+Design+Hero`,
+    hero: "https://i.ibb.co/207P9xYT/Chat-GPT-Image-Nov-23-2025-08-09-24-PM.png",
     media: buildMedia("motion-design"),
   },
   {
     slug: "product-photography",
     title: "Product Photography",
     description: "Studio and lifestyle product photography.",
-    hero: `${IMAGE_PLACEHOLDER}Product+Photography+Hero`,
+    hero: "https://i.ibb.co/PzYf8fW9/category-5-illustration-thumbnail.png",
     media: buildMedia("product-photography"),
   },
   {
@@ -80,14 +80,14 @@ export const WORK_CATEGORIES = [
     slug: "web-redesign",
     title: "Web Redesign",
     description: "Web visuals, hero treatments, and interface micro-interactions.",
-    hero: `${IMAGE_PLACEHOLDER}Web+Redesign+Hero`,
+    hero: "https://i.ibb.co/skxJTZS/Chat-GPT-Image-Nov-23-2025-08-09-20-PM.png",
     media: buildMedia("web-redesign"),
   },
   {
     slug: "youtube",
     title: "YouTube",
     description: "Long-form and short-form video samples for branded channels.",
-    hero: `${IMAGE_PLACEHOLDER}YouTube+Hero`,
+    hero: "https://i.ibb.co/sJ31cNPt/Chat-GPT-Image-Nov-23-2025-08-09-12-PM.png",
     media: buildMedia("youtube"),
   },
 ];
