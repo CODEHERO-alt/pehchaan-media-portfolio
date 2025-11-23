@@ -9,67 +9,93 @@ import { staggerContainer, thumbReveal } from "../../utils/workAnimations";
 
 export default function AdCreativesWorkPage() {
   const category = WORK_CATEGORIES.find((c) => c.slug === "ad-creatives");
-  const { list, typeFilter, setTypeFilter } = useWorkFilter(category.media);
 
+  // Guard in case slug is wrong / data missing
+  if (!category) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
+        <p className="text-sm md:text-base">
+          Could not find the <span className="font-semibold">ad-creatives</span> category in workData.js
+        </p>
+      </main>
+    );
+  }
+
+  const { list, typeFilter, setTypeFilter } = useWorkFilter(category.media || []);
   const [selected, setSelected] = useState(null);
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white pb-20">
-      {/* Hero */}
-      <header className="max-w-6xl mx-auto px-6 pt-20 pb-10">
-        <h1 className="font-[Montserrat] text-5xl md:text-6xl tracking-tight">
-          Ad Creatives
-        </h1>
-        <p className="mt-4 text-white/70 text-lg max-w-xl">
-          High-conversion creative assets — stills, reels, motion graphic cuts,
-          and experimental story-driven ad visuals.
+    <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+      {/* Header */}
+      <header className="max-w-6xl mx-auto px-6 pt-16 pb-10">
+        <p className="text-xs uppercase tracking-[0.3em] text-emerald-400/80">
+          Work samples
         </p>
+        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">
+          {category.title || "Ad Creatives"}
+        </h1>
+        {category.description && (
+          <p className="mt-3 text-sm md:text-base text-white/75 max-w-2xl">
+            {category.description}
+          </p>
+        )}
       </header>
 
-      {/* Filter Bar */}
-      <div className="max-w-6xl mx-auto px-6 pb-6 flex gap-3">
-        <button
-          onClick={() => setTypeFilter("all")}
-          className={`px-4 py-2 rounded-full text-sm ${
-            typeFilter === "all"
-              ? "bg-[#FF6F61] text-white"
-              : "bg-white/10 text-white/70"
-          }`}
-        >
-          All
-        </button>
-        <button
-          onClick={() => setTypeFilter("image")}
-          className={`px-4 py-2 rounded-full text-sm ${
-            typeFilter === "image"
-              ? "bg-[#FF6F61] text-white"
-              : "bg-white/10 text-white/70"
-          }`}
-        >
-          Images
-        </button>
-        <button
-          onClick={() => setTypeFilter("video")}
-          className={`px-4 py-2 rounded-full text-sm ${
-            typeFilter === "video"
-              ? "bg-[#FF6F61] text-white"
-              : "bg-white/10 text-white/70"
-          }`}
-        >
-          Reels
-        </button>
-      </div>
+      {/* Filter bar */}
+      <section className="max-w-6xl mx-auto px-6 pb-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border border-white/10 rounded-2xl px-4 py-3 bg-white/5 backdrop-blur">
+          <div className="flex items-center gap-2 text-xs md:text-sm text-white/70">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-emerald-400/70 text-[10px]">
+              {list.length}
+            </span>
+            <span className="font-medium tracking-wide">pieces</span>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs md:text-sm">
+            <button
+              onClick={() => setTypeFilter("all")}
+              className={`px-3 py-1 rounded-full border text-xs md:text-[13px] transition ${
+                typeFilter === "all"
+                  ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+                  : "border-white/10 text-white/70 hover:border-white/30"
+              }`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setTypeFilter("image")}
+              className={`px-3 py-1 rounded-full border text-xs md:text-[13px] transition ${
+                typeFilter === "image"
+                  ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+                  : "border-white/10 text-white/70 hover:border-white/30"
+              }`}
+            >
+              Images
+            </button>
+            <button
+              onClick={() => setTypeFilter("video")}
+              className={`px-3 py-1 rounded-full border text-xs md:text-[13px] transition ${
+                typeFilter === "video"
+                  ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+                  : "border-white/10 text-white/70 hover:border-white/30"
+              }`}
+            >
+              Videos
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* Grid */}
-      <section className="max-w-7xl mx-auto px-6">
+      <section className="max-w-6xl mx-auto px-6 pb-20">
         <motion.div
-          variants={staggerContainer(0.05)}
-          initial="initial"
-          animate="animate"
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid gap-5 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
         >
-          {list.map((item, i) => (
-            <motion.div key={item.id} variants={thumbReveal} custom={i}>
+          {list.map((item, index) => (
+            <motion.div key={item.id || index} variants={thumbReveal} custom={index}>
               <WorkSampleCard item={item} onOpen={setSelected} />
             </motion.div>
           ))}
@@ -77,7 +103,11 @@ export default function AdCreativesWorkPage() {
       </section>
 
       {/* Modal */}
-      <WorkModalView open={!!selected} item={selected} onClose={() => setSelected(null)} />
+      <WorkModalView
+        open={!!selected}
+        item={selected}
+        onClose={() => setSelected(null)}
+      />
     </main>
   );
 }
