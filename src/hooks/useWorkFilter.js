@@ -1,37 +1,63 @@
 // src/hooks/useWorkFilter.js
-import { useMemo, useState } from "react";
-import { guessMediaType } from "../utils/mediaType";
+import { useMemo } from "react";
 
-/**
- * useWorkFilter
- * - initialList: array of media items
- * - returns: { list, typeFilter, setTypeFilter, search, setSearch }
- */
-export default function useWorkFilter(initialList = []) {
-  const [typeFilter, setTypeFilter] = useState("all"); // all | image | video
-  const [search, setSearch] = useState("");
+const guessMediaType = (src) => {
+  if (!src) return "image";
+  return src.endsWith(".mp4") || src.endsWith(".mov") ? "video" : "image";
+};
 
-  const list = useMemo(() => {
-    if (!Array.isArray(initialList)) return [];
-    let out = [...initialList];
+export default function useWorkFilter(
+  items = [],
+  { searchQuery = "", activeTags = [], activeCategory = "", sortMode = "featured" }
+) {
+  const filtered = useMemo(() => {
+    const q = searchQuery.toLowerCase();
 
-    if (typeFilter === "image") {
-      out = out.filter((m) => (m.type ? m.type === "image" : guessMediaType(m.src) === "image"));
-    } else if (typeFilter === "video") {
-      out = out.filter((m) => (m.type ? m.type === "video" : guessMediaType(m.src) === "video"));
+    return (items || []).filter((item) => {
+      const src = item.media || item.src;
+      const tags = Array.isArray(item.tags) ? item.tags : [];
+      const title = item.title || "";
+      const category = item.category || "";
+
+      // Search match
+      const matchesSearch =
+        title.toLowerCase().includes(q) ||
+        tags.join(" ").toLowerCase().includes(q);
+
+      // Category match
+      const matchesCategory =
+        !activeCategory || category === activeCategory;
+
+      // Tag match
+      const matchesTags =
+        activeTags.length === 0 ||
+        activeTags.every((tag) => tags.includes(tag));
+
+      return matchesSearch && matchesCategory && matchesTags;
+    });
+  }, [items, searchQuery, activeTags, activeCategory]);
+
+  // Sorting
+  const sorted = useMemo(() => {
+    const arr = [...filtered];
+
+    switch (sortMode) {
+      case "recent":
+        return arr.sort((a, b) => (b.year || 0) - (a.year || 0));
+
+      case "oldest":
+        return arr.sort((a, b) => (a.year || 0) - (b.year || 0));
+
+      case "alpha":
+        return arr.sort((a, b) =>
+          (a.title || "").localeCompare(b.title || "")
+        );
+
+      case "featured":
+      default:
+        return arr;
     }
+  }, [filtered, sortMode]);
 
-    if (search && search.trim()) {
-      const s = search.trim().toLowerCase();
-      out = out.filter(
-        (m) =>
-          (m.title || "").toLowerCase().includes(s) ||
-          (m.tags || []).join(" ").toLowerCase().includes(s)
-      );
-    }
-
-    return out;
-  }, [initialList, typeFilter, search]);
-
-  return { list, typeFilter, setTypeFilter, search, setSearch };
+  return sorted;
 }
