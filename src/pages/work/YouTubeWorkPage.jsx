@@ -22,12 +22,14 @@ const youtubeSamples = [
 ];
 
 export default function YouTubeWorkPage() {
+  // useWorkFilter must return { filteredItems, FilterBar }
   const { filteredItems, FilterBar } = useWorkFilter(youtubeSamples);
 
-  // Build a category object for the layout (it expects `category`, not `title`/`description` props)
+  // WorkCategoryLayout expects a `category` object
   const category = {
     title: "YouTube Production",
-    description: "Long-form content, storytelling edits, thumbnails, and visual strategy for YouTube success.",
+    description:
+      "Long-form content, storytelling edits, thumbnails, and visual strategy crafted specifically for YouTube.",
     media: filteredItems,
   };
 
@@ -46,7 +48,7 @@ function MediaItem({ item }) {
   const videoRef = React.useRef(null);
   const [showModal, setShowModal] = React.useState(false);
 
-  const enter = () => {
+  const handleMouseEnter = () => {
     if (videoRef.current && item.type === "video") {
       videoRef.current.muted = false;
       videoRef.current.loop = false;
@@ -55,7 +57,7 @@ function MediaItem({ item }) {
     }
   };
 
-  const leave = () => {
+  const handleMouseLeave = () => {
     if (videoRef.current && item.type === "video") {
       videoRef.current.pause();
       videoRef.current.muted = true;
@@ -66,14 +68,14 @@ function MediaItem({ item }) {
     <>
       <div
         className="w-full rounded-xl overflow-hidden bg-[#F9F9F9] shadow-md cursor-pointer"
-        onMouseEnter={enter}
-        onMouseLeave={leave}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         onClick={() => item.type === "image" && setShowModal(true)}
       >
         {item.type === "video" ? (
           <video
             ref={videoRef}
-            src={item.src}                    {/* ✅ src added */}
+            src={item.src}
             muted
             playsInline
             preload="metadata"
