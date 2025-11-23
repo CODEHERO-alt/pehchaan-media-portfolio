@@ -3,15 +3,11 @@ import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { modalBackdrop, modalContent } from "../../utils/workAnimations";
 
-/**
- * WorkModalView
- * - open: boolean
- * - item: media item
- * - onClose: fn
- *
- * Small lightbox modal (not full-screen). Clicking backdrop or X closes.
- */
-export default function WorkModalView({ open, item = null, onClose = () => {} }) {
+export default function WorkModalView({
+  open,
+  item = null,
+  onClose = () => {},
+}) {
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => {
@@ -20,6 +16,17 @@ export default function WorkModalView({ open, item = null, onClose = () => {} })
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
+
+  if (!open || !item) return null;
+
+  // SAFER media determination
+  const src =
+    item.src || item.sampleUrl || item.thumbnail || item.poster || "";
+
+  const isVideo =
+    item.type === "video" ||
+    (typeof src === "string" &&
+      src.match(/\.(mp4|webm|mov|m4v)(\?.*)?$/i));
 
   return (
     <AnimatePresence>
@@ -50,16 +57,20 @@ export default function WorkModalView({ open, item = null, onClose = () => {} })
             </button>
 
             <div className="p-6 flex items-center justify-center">
-              {item.type === "video" || item.src.match(/\.(mp4|webm|mov|m4v)/i) ? (
+              {isVideo ? (
                 <video
-                  src={item.src}
+                  src={src}
                   poster={item.poster || ""}
                   controls
                   autoPlay
                   className="max-w-full max-h-[70vh] object-contain"
                 />
               ) : (
-                <img src={item.src} alt={item.alt || item.title} className="max-w-full max-h-[70vh] object-contain" />
+                <img
+                  src={src}
+                  alt={item.alt || item.title || "media"}
+                  className="max-w-full max-h-[70vh] object-contain"
+                />
               )}
             </div>
 
