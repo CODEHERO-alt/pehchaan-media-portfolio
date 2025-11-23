@@ -66,7 +66,7 @@ export const WORK_CATEGORIES = [
     slug: "product-videography",
     title: "Product Videography",
     description: "Cinematic product videos and in-use demos.",
-    hero: `${IMAGE_PLACEHOLDER}Product+Videography+Hero`,
+    hero: "https://i.ibb.co/5xKcCM5D/Category-6-illustration-thumbnail.png",
     media: buildMedia("product-videography"),
   },
   {
