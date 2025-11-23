@@ -24,13 +24,15 @@ const youtubeSamples = [
 export default function YouTubeWorkPage() {
   const { filteredItems, FilterBar } = useWorkFilter(youtubeSamples);
 
-  return (
-    <WorkCategoryLayout
-      title="YouTube Production"
-      description="Long-form content, storytelling edits, thumbnails, and visual strategy for YouTube success."
-    >
-      <FilterBar />
+  // Build a category object for the layout (it expects `category`, not `title`/`description` props)
+  const category = {
+    title: "YouTube Production",
+    description: "Long-form content, storytelling edits, thumbnails, and visual strategy for YouTube success.",
+    media: filteredItems,
+  };
 
+  return (
+    <WorkCategoryLayout category={category} filterControls={<FilterBar />}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {filteredItems.map((item, idx) => (
           <MediaItem key={idx} item={item} />
@@ -69,7 +71,14 @@ function MediaItem({ item }) {
         onClick={() => item.type === "image" && setShowModal(true)}
       >
         {item.type === "video" ? (
-          <video ref={videoRef} muted playsInline preload="metadata" className="w-full h-full object-cover" />
+          <video
+            ref={videoRef}
+            src={item.src}                    {/* ✅ src added */}
+            muted
+            playsInline
+            preload="metadata"
+            className="w-full h-full object-cover"
+          />
         ) : (
           <img src={item.src} className="w-full h-full object-cover" />
         )}
@@ -78,7 +87,10 @@ function MediaItem({ item }) {
       {showModal && item.type === "image" && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl p-4 max-w-3xl shadow-xl relative">
-            <button onClick={() => setShowModal(false)} className="absolute top-2 right-2 text-black text-xl font-bold">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-2 text-black text-xl font-bold"
+            >
               ✕
             </button>
             <img src={item.src} className="max-h-[80vh] w-auto rounded-lg" />
