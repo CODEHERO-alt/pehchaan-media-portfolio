@@ -1,37 +1,54 @@
-// src/pages/work/ProductVideographyWorkPage.jsx
+// src/pages/work/AnalyticsDashboardsWorkPage.jsx
 import React from "react";
 import WorkCategoryLayout from "../../layouts/WorkCategoryLayout";
 import useWorkFilter from "../../hooks/useWorkFilter";
 
-const videographySamples = [
-  { type: "video", src: "https://videos.pexels.com/video-files/3130141/3130141-hd_1920_1080_24fps.mp4" },
-  { type: "video", src: "https://videos.pexels.com/video-files/854128/854128-hd_1920_1080_30fps.mp4" },
-  { type: "image", src: "https://images.unsplash.com/photo-1520975698519-59cde0b30a52" },
-  { type: "video", src: "https://videos.pexels.com/video-files/856300/856300-hd_1920_1080_30fps.mp4" },
-  { type: "video", src: "https://videos.pexels.com/video-files/5993626/5993626-hd_1920_1080_30fps.mp4" },
-  { type: "image", src: "https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb" },
-  { type: "image", src: "https://images.unsplash.com/photo-1503602642458-232111445657" },
-  { type: "video", src: "https://videos.pexels.com/video-files/3130141/3130141-hd_1920_1080_24fps.mp4" },
-  { type: "video", src: "https://videos.pexels.com/video-files/856368/856368-hd_1920_1080_30fps.mp4" },
-  { type: "image", src: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34" },
-  { type: "video", src: "https://videos.pexels.com/video-files/854128/854128-hd_1920_1080_30fps.mp4" },
-  { type: "video", src: "https://videos.pexels.com/video-files/5993626/5993626-hd_1920_1080_30fps.mp4" },
-  { type: "image", src: "https://images.unsplash.com/photo-1484552338649-5bf19187add2" },
-  { type: "video", src: "https://videos.pexels.com/video-files/3130141/3130141-hd_1920_1080_24fps.mp4" },
-  { type: "image", src: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f" },
+const analyticsSamples = [
+  { type: "image", src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71" },
+  { type: "image", src: "https://images.unsplash.com/photo-1553877522-43269d4ea984" },
+  { type: "image", src: "https://images.unsplash.com/photo-1556157382-97eda2d62296" },
+  { type: "image", src: "https://images.unsplash.com/photo-1504274066651-8d31a536b11a" },
+  { type: "image", src: "https://images.unsplash.com/photo-1531297484001-80022131f5a1" },
 ];
 
-export default function ProductVideographyWorkPage() {
-  const { filteredItems, FilterBar } = useWorkFilter(videographySamples);
+export default function AnalyticsDashboardsWorkPage() {
+  const { filteredItems, typeFilter, setTypeFilter } = useWorkFilter(analyticsSamples);
+
+  const category = {
+    title: "Analytics & Dashboards",
+    description:
+      "Custom dashboards, reporting layouts, and visual storytelling for marketing and revenue performance.",
+    media: filteredItems,
+  };
+
+  const filterControls = (
+    <div className="flex items-center gap-2 text-xs md:text-sm">
+      <button
+        onClick={() => setTypeFilter("all")}
+        className={`px-3 py-1 rounded-full border transition ${
+          typeFilter === "all"
+            ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+            : "border-white/10 text-white/70 hover:border-white/30"
+        }`}
+      >
+        All
+      </button>
+      <button
+        onClick={() => setTypeFilter("image")}
+        className={`px-3 py-1 rounded-full border transition ${
+          typeFilter === "image"
+            ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+            : "border-white/10 text-white/70 hover:border-white/30"
+        }`}
+      >
+        Dashboard UI
+      </button>
+    </div>
+  );
 
   return (
-    <WorkCategoryLayout
-      title="Product Videography"
-      description="High-end product films crafted with cinematic movement, lighting, and storytelling."
-    >
-      <FilterBar />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+    <WorkCategoryLayout category={category} filterControls={filterControls}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
         {filteredItems.map((item, idx) => (
           <MediaItem key={idx} item={item} />
         ))}
@@ -41,44 +58,35 @@ export default function ProductVideographyWorkPage() {
 }
 
 function MediaItem({ item }) {
-  const videoRef = React.useRef(null);
   const [showModal, setShowModal] = React.useState(false);
-
-  const enter = () => {
-    if (item.type === "video" && videoRef.current) {
-      videoRef.current.muted = false;
-      videoRef.current.loop = false;
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-    }
-  };
-
-  const leave = () => {
-    if (item.type === "video" && videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.muted = true;
-    }
-  };
 
   return (
     <>
       <div
-        className="w-full rounded-xl overflow-hidden bg-[#F9F9F9] shadow-md cursor-pointer"
-        onMouseEnter={enter}
-        onMouseLeave={leave}
-        onClick={() => item.type === "image" && setShowModal(true)}
+        className="group w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10 shadow-[0_18px_40px_rgba(15,23,42,0.8)] cursor-pointer relative"
+        onClick={() => setShowModal(true)}
       >
-        {item.type === "video" ? (
-          <video ref={videoRef} muted playsInline className="w-full h-full object-cover" preload="metadata" />
-        ) : (
-          <img src={item.src} className="w-full h-full object-cover" />
-        )}
+        <img
+          src={item.src}
+          loading="lazy"
+          className="w-full h-full object-cover aspect-video"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/0 to-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute bottom-3 left-3 flex items-center gap-2 text-[11px] uppercase tracking-[0.16em]">
+          <span className="inline-flex h-6 px-2 items-center justify-center rounded-full bg-black/60 border border-white/15 text-white/80 backdrop-blur">
+            Analytics
+          </span>
+        </div>
       </div>
 
-      {showModal && item.type === "image" && (
+      {showModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl p-4 max-w-3xl shadow-xl relative">
-            <button onClick={() => setShowModal(false)} className="absolute top-2 right-2 text-black text-xl font-bold">
+          <div className="bg-slate-950 border border-white/10 rounded-2xl p-4 max-w-4xl shadow-2xl relative">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-2 text-white text-xl font-bold"
+            >
               ✕
             </button>
             <img src={item.src} className="max-h-[80vh] w-auto rounded-lg" />
