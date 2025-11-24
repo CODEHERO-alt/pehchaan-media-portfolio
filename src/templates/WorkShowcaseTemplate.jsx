@@ -28,7 +28,6 @@ export default function WorkShowcaseTemplate({
       out = out.filter((s) => s.type === typeFilter);
     }
     if (activeTag && activeTag !== "All") {
-      // If your samples carry tags you can filter here — fallback is no-op
       out = out.filter((s) => (s.tags || []).includes(activeTag));
     }
     return out;
@@ -36,7 +35,6 @@ export default function WorkShowcaseTemplate({
 
   return (
     <section className="work-showcase relative py-16 md:py-28 px-6 md:px-12 lg:px-20 text-white">
-      {/* Subtle paper grain layer (Tailwind layer provided later) */}
       <div className="absolute inset-0 pointer-events-none texture-paper opacity-30 mix-blend-overlay" />
 
       {/* HERO */}
@@ -77,7 +75,7 @@ export default function WorkShowcaseTemplate({
         <ControlledChaosGrid items={filtered} />
       </motion.div>
 
-      {/* Small CTA or subtle footer stripe */}
+      {/* CTA */}
       <div className="max-w-6xl mx-auto mt-12 md:mt-16 z-10 relative">
         <div className="rounded-2xl p-6 bg-white/3 border border-white/6 flex items-center justify-between">
           <div>
@@ -105,9 +103,8 @@ WorkShowcaseTemplate.propTypes = {
   theme: PropTypes.string,
 };
 
-
 /**
- * FilterBar — visual chip filters for type + tag selection
+ * FilterBar
  */
 function FilterBar({ tags = ["All"], typeFilter, onTypeChange, activeTag, onTagChange, theme }) {
   return (
@@ -116,7 +113,9 @@ function FilterBar({ tags = ["All"], typeFilter, onTypeChange, activeTag, onTagC
         <button
           onClick={() => onTypeChange("all")}
           className={`px-3 py-1 rounded-full border transition text-xs ${
-            typeFilter === "all" ? "border-emerald-400 bg-emerald-500/15 text-emerald-200" : "border-white/10 text-white/70 hover:border-white/30"
+            typeFilter === "all"
+              ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+              : "border-white/10 text-white/70 hover:border-white/30"
           }`}
         >
           All
@@ -124,7 +123,9 @@ function FilterBar({ tags = ["All"], typeFilter, onTypeChange, activeTag, onTagC
         <button
           onClick={() => onTypeChange("image")}
           className={`px-3 py-1 rounded-full border transition text-xs ${
-            typeFilter === "image" ? "border-emerald-400 bg-emerald-500/15 text-emerald-200" : "border-white/10 text-white/70 hover:border-white/30"
+            typeFilter === "image"
+              ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+              : "border-white/10 text-white/70 hover:border-white/30"
           }`}
         >
           Thumbnails
@@ -132,21 +133,24 @@ function FilterBar({ tags = ["All"], typeFilter, onTypeChange, activeTag, onTagC
         <button
           onClick={() => onTypeChange("video")}
           className={`px-3 py-1 rounded-full border transition text-xs ${
-            typeFilter === "video" ? "border-emerald-400 bg-emerald-500/15 text-emerald-200" : "border-white/10 text-white/70 hover:border-white/30"
+            typeFilter === "video"
+              ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+              : "border-white/10 text-white/70 hover:border-white/30"
           }`}
         >
           Edits
         </button>
       </div>
 
-      {/* Tag chips */}
       <div className="hidden sm:flex items-center gap-2">
         {tags.map((t) => (
           <button
             key={t}
             onClick={() => onTagChange(t)}
             className={`px-3 py-1 rounded-full border text-xs transition ${
-              activeTag === t ? "bg-white/5 border-white/20 text-white" : "border-white/8 text-white/70 hover:border-white/30"
+              activeTag === t
+                ? "bg-white/5 border-white/20 text-white"
+                : "border-white/8 text-white/70 hover:border-white/30"
             }`}
           >
             {t}
@@ -159,18 +163,14 @@ function FilterBar({ tags = ["All"], typeFilter, onTypeChange, activeTag, onTagC
 
 /**
  * ControlledChaosGrid
- * - Creates a staggered grid where some items intentionally span more rows/cols
- * - Uses the CreativeMediaItem for every piece
  */
 function ControlledChaosGrid({ items = [] }) {
-  // A mapping that decides the visual weight of each tile by index — tweakable.
   const weightMap = useMemo(() => [2, 1, 1, 2, 1, 1, 2, 1, 1, 2], []);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
       {items.map((item, i) => {
         const weight = weightMap[i % weightMap.length] || 1;
-        // We use row-span/col-span utility classes to create the irregular layout
         const className =
           weight === 2
             ? "row-span-1 sm:row-span-1 lg:col-span-2 lg:row-span-1"
@@ -188,12 +188,4 @@ function ControlledChaosGrid({ items = [] }) {
       })}
     </div>
   );
-}
-
-// Local fadeInUp fallback (in case utils haven't been generated yet)
-function fadeInUp() {
-  return {
-    hidden: { opacity: 0, y: 12 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
-  };
 }
