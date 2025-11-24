@@ -1,83 +1,97 @@
-// src/pages/work/GraphicsWorkPage.jsx
-import React, { useState } from "react";
-import WORK_CATEGORIES from "../../data/workData";
+// src/pages/work/EmailMarketingWorkPage.jsx
+import React from "react";
+import WorkCategoryLayout from "../../layouts/WorkCategoryLayout";
 import useWorkFilter from "../../hooks/useWorkFilter";
-import WorkSampleCard from "../../components/work/WorkSampleCard";
-import WorkModalView from "../../components/work/WorkModalView";
-import { motion } from "framer-motion";
-import { staggerContainer, thumbReveal } from "../../utils/workAnimations";
 
-export default function GraphicsWorkPage() {
-  const category = WORK_CATEGORIES.find((c) => c.slug === "graphics");
-  const { list, typeFilter, setTypeFilter } = useWorkFilter(category.media);
+const emailSamples = [
+  { type: "image", src: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6" },
+  { type: "image", src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40" },
+  { type: "image", src: "https://images.unsplash.com/photo-1553877522-43269d4ea984" },
+  { type: "image", src: "https://images.unsplash.com/photo-1526498460520-4c246339dccb" },
+];
 
-  const [selected, setSelected] = useState(null);
+export default function EmailMarketingWorkPage() {
+  const { filteredItems, typeFilter, setTypeFilter } = useWorkFilter(emailSamples);
+
+  const category = {
+    title: "Email & CRM Flows",
+    description:
+      "Email and CRM layouts for nurture, offers, and retention – designed to feel on-brand and easy to scan.",
+    media: filteredItems,
+  };
+
+  const filterControls = (
+    <div className="flex items-center gap-2 text-xs md:text-sm">
+      <button
+        onClick={() => setTypeFilter("all")}
+        className={`px-3 py-1 rounded-full border transition ${
+          typeFilter === "all"
+            ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+            : "border-white/10 text-white/70 hover:border-white/30"
+        }`}
+      >
+        All
+      </button>
+      <button
+        onClick={() => setTypeFilter("image")}
+        className={`px-3 py-1 rounded-full border transition ${
+          typeFilter === "image"
+            ? "border-emerald-400 bg-emerald-500/15 text-emerald-200"
+            : "border-white/10 text-white/70 hover:border-white/30"
+        }`}
+      >
+        Layouts
+      </button>
+    </div>
+  );
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white pb-20">
-      {/* Hero */}
-      <header className="max-w-6xl mx-auto px-6 pt-20 pb-10">
-        <h1 className="font-[Montserrat] text-5xl md:text-6xl tracking-tight">
-          Graphics
-        </h1>
-        <p className="mt-4 text-white/70 text-lg max-w-xl">
-          Branding, illustration, posters, thumbnails, editorial layouts, and
-          digital design assets—all visually driven and identity-focused.
-        </p>
-      </header>
+    <WorkCategoryLayout category={category} filterControls={filterControls}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+        {filteredItems.map((item, idx) => (
+          <MediaItem key={idx} item={item} />
+        ))}
+      </div>
+    </WorkCategoryLayout>
+  );
+}
 
-      {/* Filter Bar */}
-      <div className="max-w-6xl mx-auto px-6 pb-6 flex gap-3">
-        <button
-          onClick={() => setTypeFilter("all")}
-          className={`px-4 py-2 rounded-full text-sm ${
-            typeFilter === "all"
-              ? "bg-[#FF6F61] text-white"
-              : "bg-white/10 text-white/70"
-          }`}
-        >
-          All
-        </button>
-        <button
-          onClick={() => setTypeFilter("image")}
-          className={`px-4 py-2 rounded-full text-sm ${
-            typeFilter === "image"
-              ? "bg-[#FF6F61] text-white"
-              : "bg-white/10 text-white/70"
-          }`}
-        >
-          Images
-        </button>
-        <button
-          onClick={() => setTypeFilter("video")}
-          className={`px-4 py-2 rounded-full text-sm ${
-            typeFilter === "video"
-              ? "bg-[#FF6F61] text-white"
-              : "bg-white/10 text-white/70"
-          }`}
-        >
-          Reels
-        </button>
+function MediaItem({ item }) {
+  const [showModal, setShowModal] = React.useState(false);
+
+  return (
+    <>
+      <div
+        className="group w-full rounded-2xl overflow-hidden bg-white/5 border border-white/10 shadow-[0_18px_40px_rgba(15,23,42,0.8)] cursor-pointer relative"
+        onClick={() => setShowModal(true)}
+      >
+        <img
+          src={item.src}
+          loading="lazy"
+          className="w-full h-full object-cover aspect-video"
+        />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/0 to-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute bottom-3 left-3 flex items-center gap-2 text-[11px] uppercase tracking-[0.16em]">
+          <span className="inline-flex h-6 px-2 items-center justify-center rounded-full bg-black/60 border border-white/15 text-white/80 backdrop-blur">
+            Email
+          </span>
+        </div>
       </div>
 
-      {/* Grid */}
-      <section className="max-w-7xl mx-auto px-6">
-        <motion.div
-          variants={staggerContainer(0.05)}
-          initial="initial"
-          animate="animate"
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
-        >
-          {list.map((item, i) => (
-            <motion.div key={item.id} variants={thumbReveal} custom={i}>
-              <WorkSampleCard item={item} onOpen={setSelected} />
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* Modal */}
-      <WorkModalView open={!!selected} item={selected} onClose={() => setSelected(null)} />
-    </main>
+      {showModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-950 border border-white/10 rounded-2xl p-4 max-w-4xl shadow-2xl relative">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-2 right-2 text-white text-xl font-bold"
+            >
+              ✕
+            </button>
+            <img src={item.src} className="max-h-[80vh] w-auto rounded-lg" />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
