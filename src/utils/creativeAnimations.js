@@ -1,7 +1,7 @@
 // src/utils/creativeAnimations.js
 
 export const containerStagger = {
-  show: {
+  visible: {
     transition: {
       staggerChildren: 0.15,
       delayChildren: 0.15,
@@ -39,7 +39,7 @@ export const fadeInUp = {
     opacity: 0,
     y: 20,
   },
-  show: {
+  visible: {            // changed from `show` -> `visible`
     opacity: 1,
     y: 0,
     transition: {
