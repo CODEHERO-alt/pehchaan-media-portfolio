@@ -1,15 +1,11 @@
 import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import CreativeMediaItem from "@/components/work/CreativeMediaItem";
 import { containerStagger, fadeInUp } from "@/utils/creativeAnimations";
 
 /**
  * WorkShowcaseTemplate
- * A single master template for all work category pages.
- * - Uses a "controlled chaos" grid for an editorial, handcrafted feel.
- * - Expects `samples` to be an array of { type: 'image'|'video', src, title?, meta? }
- * - Keeps outer layout minimal so Navbar/Footer from the app wrap it.
  */
 export default function WorkShowcaseTemplate({
   title,
@@ -18,6 +14,7 @@ export default function WorkShowcaseTemplate({
   tags = ["All"],
   initialFilter = "all",
   theme = "emerald",
+  onItemClick, // <-- accept this prop
 }) {
   const [typeFilter, setTypeFilter] = useState(initialFilter);
   const [activeTag, setActiveTag] = useState("All");
@@ -72,7 +69,7 @@ export default function WorkShowcaseTemplate({
         animate="visible"
         className="max-w-6xl mx-auto relative z-10"
       >
-        <ControlledChaosGrid items={filtered} />
+        <ControlledChaosGrid items={filtered} onItemClick={onItemClick} />
       </motion.div>
 
       {/* CTA */}
@@ -101,6 +98,7 @@ WorkShowcaseTemplate.propTypes = {
   tags: PropTypes.array,
   initialFilter: PropTypes.string,
   theme: PropTypes.string,
+  onItemClick: PropTypes.func, // <-- prop type added
 };
 
 /**
@@ -164,7 +162,7 @@ function FilterBar({ tags = ["All"], typeFilter, onTypeChange, activeTag, onTagC
 /**
  * ControlledChaosGrid
  */
-function ControlledChaosGrid({ items = [] }) {
+function ControlledChaosGrid({ items = [], onItemClick }) {
   const weightMap = useMemo(() => [2, 1, 1, 2, 1, 1, 2, 1, 1, 2], []);
 
   return (
@@ -182,7 +180,7 @@ function ControlledChaosGrid({ items = [] }) {
             variants={fadeInUp}
             className={`group ${className}`}
           >
-            <CreativeMediaItem item={item} index={i} />
+            <CreativeMediaItem item={item} index={i} onClick={onItemClick} />
           </motion.div>
         );
       })}
