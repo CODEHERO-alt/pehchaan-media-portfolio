@@ -1,6 +1,6 @@
 // src/utils/creativeAnimations.js
 
-export const showcaseStagger = {
+export const containerStagger = {
   show: {
     transition: {
       staggerChildren: 0.15,
@@ -34,7 +34,6 @@ export const mediaHoverOut = {
   },
 };
 
-// ✨ NEW — added fadeInUp (clean, smooth, Awwwards-style)
 export const fadeInUp = {
   hidden: {
     opacity: 0,
