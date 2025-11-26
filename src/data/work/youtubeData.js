@@ -1,12 +1,14 @@
 // src/data/work/youtubeData.js
+// Rewritten YouTube sample dataset — optimized thumbnails + stable video links
 
 export const youtubeItems = [
   {
     id: 1,
     type: "image",
-    src: "https://images.unsplash.com/photo-1581091012184-5c6f3a8d08da",
-    title: "Tech Breakdown Thumbnail",
+    src: "https://images.unsplash.com/photo-1581091012184-5c6f3a8d08da?w=1200&auto=format&fit=crop&q=70",
+    title: "Tech Breakdown — Thumbnail",
     category: "Thumbnails",
+    weight: 1,
   },
   {
     id: 2,
@@ -14,13 +16,15 @@ export const youtubeItems = [
     src: "https://videos.pexels.com/video-files/854128/854128-hd_1920_1080_30fps.mp4",
     title: "Cinematic Travel Edit",
     category: "Edits",
+    weight: 2,
   },
   {
     id: 3,
     type: "image",
-    src: "https://images.unsplash.com/photo-1503602642458-232111445657",
+    src: "https://images.unsplash.com/photo-1503602642458-232111445657?w=1300&auto=format&fit=crop&q=70",
     title: "Fitness Motivation Cover",
     category: "Thumbnails",
+    weight: 1,
   },
   {
     id: 4,
@@ -28,13 +32,15 @@ export const youtubeItems = [
     src: "https://videos.pexels.com/video-files/3130141/3130141-hd_1920_1080_24fps.mp4",
     title: "Product Review — Fast Cuts",
     category: "Edits",
+    weight: 1,
   },
   {
     id: 5,
     type: "image",
-    src: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34",
+    src: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=1000&auto=format&fit=crop&q=70",
     title: "Lifestyle Vlog Thumbnail",
     category: "Thumbnails",
+    weight: 2,
   },
   {
     id: 6,
@@ -42,13 +48,15 @@ export const youtubeItems = [
     src: "https://videos.pexels.com/video-files/856368/856368-hd_1920_1080_30fps.mp4",
     title: "Fashion B-Roll Sequence",
     category: "Edits",
+    weight: 1,
   },
   {
     id: 7,
     type: "image",
-    src: "https://images.unsplash.com/photo-1520975698519-59cde0b30a52",
-    title: "Storytelling Podcast Thumbnail",
+    src: "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=1200&auto=format&fit=crop&q=70",
+    title: "Storytelling Podcast Cover",
     category: "Thumbnails",
+    weight: 1,
   },
   {
     id: 8,
@@ -56,13 +64,15 @@ export const youtubeItems = [
     src: "https://videos.pexels.com/video-files/5993626/5993626-hd_1920_1080_30fps.mp4",
     title: "Workout Channel Edit",
     category: "Edits",
+    weight: 2,
   },
   {
     id: 9,
     type: "image",
-    src: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2",
+    src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&auto=format&fit=crop&q=70",
     title: "Documentary Episode Cover",
     category: "Thumbnails",
+    weight: 1,
   },
   {
     id: 10,
@@ -70,5 +80,6 @@ export const youtubeItems = [
     src: "https://videos.pexels.com/video-files/856300/856300-hd_1920_1080_30fps.mp4",
     title: "Short-form Promo Edit",
     category: "Edits",
+    weight: 1,
   },
 ];
