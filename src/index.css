@@ -5,29 +5,42 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────
-   UI/UX Refinements – Typography + Visual Polish
+   Elegant Minimal — Editorial UI Tokens
 ────────────────────────────────────────────── */
+:root {
+  --bg-900: #08080a;
+  --bg-800: #0b1220;
+  --text-1: #ffffff;
+  --text-2: #b7c0cc;
+  --emerald-500: #10b981;
+  --emerald-600: #059669;
+  --muted: #0f1724;
+}
+
+/* base tweaks + typography */
 html {
   scroll-behavior: smooth;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: dark;
+  background-color: var(--bg-900);
 }
 
 body {
   background: radial-gradient(
-      circle at 20% 20%,
+      circle at 16% 18%,
       rgba(12, 25, 45, 0.9),
       rgba(3, 7, 17, 1)
     )
     fixed;
   background-attachment: fixed;
-  color: #e2e8f0;
+  color: var(--text-2);
   overflow-x: hidden;
-  transition: background 1s ease, color 0.3s ease;
+  transition: background 0.9s ease, color 0.3s ease;
 }
 
-/* Smooth gradient fix (prevents banding) */
+/* subtle overlay for smooth gradients */
 body::before {
   content: "";
   position: fixed;
@@ -42,74 +55,127 @@ body::before {
   mix-blend-mode: overlay;
 }
 
-/* ─────────────────────────────────────────────
-   Layout
-────────────────────────────────────────────── */
+/* Layout */
 section {
   position: relative;
   z-index: 10;
   isolation: isolate;
 }
 
-h1,
-h2,
-h3,
-h4 {
+/* Typographic rhythm */
+h1 {
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.015em;
+}
+
+h2, h3, h4 {
+  color: var(--text-1);
   letter-spacing: -0.02em;
 }
 
+p, li, dd {
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+/* Links */
 a {
-  transition: color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  transition: color 0.2s ease, opacity 0.2s ease, transform 0.25s ease;
 }
-
 a:hover {
-  opacity: 0.85;
+  opacity: 0.92;
 }
 
-/* ─────────────────────────────────────────────
-   Media + Image Styling
-────────────────────────────────────────────── */
+/* Rounded utility for cards */
+.rounded-2xl {
+  border-radius: 18px;
+}
+
+/* Media + Image Styling */
 img {
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   will-change: transform;
 }
-
 img:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
-/* ─────────────────────────────────────────────
-   Scrollbar Styling
-────────────────────────────────────────────── */
+/* Buttons / chips focus */
+button:focus, a:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(16,185,129,0.08);
+  border-radius: 10px;
+}
+
+/* subtle card border */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 10px;
-  height: 10px;
+  height: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #0a0f1f;
+  background: #06070a;
 }
-
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #22d3ee, #3b82f6);
   border-radius: 10px;
-  border: 2px solid #0a0f1f;
+  border: 2px solid #06070a;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #3be6ff, #60a5fa);
 }
 
-/* ─────────────────────────────────────────────
-   Selection + Focus States
-────────────────────────────────────────────── */
+/* Selection + Focus States */
 ::selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: #e2e8f0;
+  background: rgba(59, 130, 246, 0.18);
+  color: var(--text-1);
+}
+:focus-visible {
+  outline: 2px solid rgba(59,130,246,0.22);
+  outline-offset: 2px;
 }
 
-:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+/* Utility: subtle highlight for emerald accent elements */
+.emerald-accent {
+  color: var(--emerald-500);
+}
+.emerald-bg {
+  background-color: rgba(16,185,129,0.06);
+  border: 1px solid rgba(16,185,129,0.09);
+}
+
+/* Small responsive helpers */
+@media (max-width: 640px) {
+  .rounded-2xl { border-radius: 12px; }
+  h1 { font-size: 1.75rem; }
+}
+
+/* Final polish for Work page elements */
+.work-showcase .texture-paper { opacity: 0.06; background-image: url('/assets/texture-paper.png'); background-size: 200px 200px; }
+.texture-grain { background-image: url('/assets/texture-grain.png'); opacity: 0.25; }
+
+/* Headline weight tuning (if you have a display font, set .font-display in tailwind config) */
+.font-display {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Tiny helper for subtitle */
+.kicker {
+  color: var(--text-2);
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* Ensure focus rings on chips are visible */
+.rounded-chip:focus {
+  box-shadow: 0 0 0 4px rgba(16,185,129,0.08);
 }
