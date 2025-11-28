@@ -1,7 +1,7 @@
 // src/components/work/youtube/HeroYouTube.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import "@/components/work/youtube/import youtube-hero.css";
+import "@/styles/youtube-hero.css";
 
 
 /**
