@@ -1,0 +1,57 @@
+/* src/styles/creative-media.css
+   Tilt + hover overlay styling
+*/
+
+.creative-tilt {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
+}
+
+.media-frame { position: relative; overflow: hidden; border-radius: 14px; }
+
+.media-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.08));
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+.creative-tilt:hover .media-overlay { opacity: 1; }
+
+/* overlay meta */
+.overlay-meta {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(3,6,12,0.36);
+  padding: 8px 12px;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+}
+.meta-title { font-weight: 700; color: #fff; font-size: 0.95rem; }
+.meta-sub { font-size: 0.78rem; color: rgba(255,255,255,0.78); margin-top: 4px; }
+.meta-duration {
+  background: rgba(255,255,255,0.06);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: #fff;
+}
+
+/* accessibility focus */
+.creative-tilt:focus { box-shadow: 0 12px 30px rgba(34,211,238,0.06); outline: none; transform: translateY(-4px) scale(1.01); }
+
+/* small screens */
+@media (max-width: 640px) {
+  .overlay-meta { left: 8px; right: 8px; bottom: 8px; padding: 6px 10px; }
+  .meta-title { font-size: 0.9rem; }
+}
