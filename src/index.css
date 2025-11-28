@@ -1,3 +1,4 @@
+/* src/index.css */
 @import "./styles/work-detailed.css";
 
 @tailwind base;
@@ -5,7 +6,7 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────
-   Elegant Minimal — Editorial UI Tokens
+   Elegant Minimal — Editorial UI Tokens (merged)
 ────────────────────────────────────────────── */
 :root {
   --bg-900: #08080a;
@@ -15,6 +16,7 @@
   --emerald-500: #10b981;
   --emerald-600: #059669;
   --muted: #0f1724;
+  --accent-cyan: #22d3ee;
 }
 
 /* base tweaks + typography */
@@ -109,10 +111,10 @@ button:focus, a:focus {
   border-radius: 10px;
 }
 
-/* subtle card border */
+/* subtle card border (kept transparent to remove white lines) */
 .card {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.02);
 }
 
 /* Scrollbar Styling */
@@ -161,7 +163,7 @@ button:focus, a:focus {
 .work-showcase .texture-paper { opacity: 0.06; background-image: url('/assets/texture-paper.png'); background-size: 200px 200px; }
 .texture-grain { background-image: url('/assets/texture-grain.png'); opacity: 0.25; }
 
-/* Headline weight tuning (if you have a display font, set .font-display in tailwind config) */
+/* Headline weight tuning */
 .font-display {
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -179,3 +181,6 @@ button:focus, a:focus {
 .rounded-chip:focus {
   box-shadow: 0 0 0 4px rgba(16,185,129,0.08);
 }
+
+/* Add cinematic glass utilities from ui.css for compatibility */
+@import "./styles/ui.css";
