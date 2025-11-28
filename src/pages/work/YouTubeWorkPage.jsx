@@ -1,4 +1,6 @@
+// src/pages/work/YouTubeWorkPage.jsx
 import React from "react";
+import HeroYouTube from "@/components/work/youtube/HeroYouTube";
 import WorkShowcaseTemplate from "@/templates/WorkShowcaseTemplate";
 import useWorkLightbox from "@/hooks/useWorkLightbox";
 import WorkLightboxModal from "@/components/work/WorkLightboxModal";
@@ -9,6 +11,8 @@ export default function YouTubeWorkPage() {
 
   return (
     <>
+      <HeroYouTube />
+
       <WorkShowcaseTemplate
         title="YouTube Production"
         description="Thumbnails, long-form edits, storytelling visuals."
@@ -18,11 +22,7 @@ export default function YouTubeWorkPage() {
         onItemClick={openModal}
       />
 
-      <WorkLightboxModal
-        open={open}
-        item={item}
-        onClose={closeModal}
-      />
+      <WorkLightboxModal open={open} item={item} onClose={closeModal} />
     </>
   );
 }
