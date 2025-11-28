@@ -1,6 +1,6 @@
 // src/utils/workAnimations.js
 
-// Generic staggered container
+// ---------- ORIGINAL ANIMATIONS (preserved) ----------
 export const staggerContainer = (stagger = 0.05) => ({
   initial: { opacity: 0 },
   animate: {
@@ -19,7 +19,6 @@ export const staggerContainer = (stagger = 0.05) => ({
   },
 });
 
-// Card hover
 export const cardHover = {
   initial: { opacity: 0, y: 20, scale: 0.96 },
   animate: {
@@ -35,7 +34,6 @@ export const cardHover = {
   },
 };
 
-// Hero animations
 export const heroContainer = {
   initial: { opacity: 0, y: 16 },
   animate: {
@@ -77,7 +75,6 @@ export const heroSubtitle = {
   },
 };
 
-// Glowing orbs behind hero
 export const heroGlowOrbs = {
   initial: { opacity: 0, scale: 0.6 },
   animate: (i = 0) => ({
@@ -95,7 +92,6 @@ export const heroGlowOrbs = {
   }),
 };
 
-// Trails
 export const heroTrails = {
   initial: { opacity: 0, y: 40 },
   animate: (i = 0) => ({
@@ -111,7 +107,6 @@ export const heroTrails = {
   }),
 };
 
-// Pill animation
 export const pillVariant = {
   initial: { scale: 1, opacity: 1 },
   animate: {
@@ -125,7 +120,6 @@ export const pillVariant = {
   },
 };
 
-// Filter bar animations
 export const filterBarParent = {
   initial: { opacity: 0, y: 12 },
   animate: {
@@ -161,7 +155,6 @@ export const filterChipChild = {
   },
 };
 
-// Thumbnail reveal
 export const thumbReveal = {
   initial: { opacity: 0, y: 20, scale: 0.96 },
   animate: {
@@ -172,7 +165,6 @@ export const thumbReveal = {
   },
 };
 
-// Modal animations
 export const modalBackdrop = {
   initial: { opacity: 0 },
   animate: {
@@ -198,4 +190,69 @@ export const modalContent = {
     y: 12,
     transition: { duration: 0.2 },
   },
+};
+
+// ---------- NEW / ADDED CINEMATIC VARIANTS ----------
+
+// Container stagger alias (keeps compatibility)
+export const containerStagger = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+// fadeInUp — scroll-triggered with custom index (strength)
+export const fadeInUp = {
+  hidden: { opacity: 0, y: 28, perspective: 800, rotateX: 4 },
+  visible: (i = 1) => ({
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: {
+      delay: i * 0.06,
+      duration: 0.62,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+};
+
+// mediaFloat (gentle entrance used by cards)
+export const mediaFloat = {
+  initial: { opacity: 0, y: 28 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.72, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+// hover variants for media (subtle)
+export const mediaHoverIn = {
+  hover: {
+    scale: 1.03,
+    transition: { duration: 0.28, ease: "easeOut" },
+  },
+};
+export const mediaHoverOut = {
+  rest: { scale: 1, transition: { duration: 0.28, ease: "easeInOut" } },
+};
+
+// size-based strength helper (return variant)
+export const sizeStrength = (weight = 1) => {
+  const base = 0.06;
+  return {
+    hidden: { opacity: 0, y: 28 * (1 + weight * 0.15) },
+    visible: (i = 1) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * base,
+        duration: 0.6 + weight * 0.05,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    }),
+  };
 };
