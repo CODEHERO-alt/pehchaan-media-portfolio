@@ -3,24 +3,6 @@ import React, { useEffect, useRef } from "react";
 import { motion, useAnimation, useReducedMotion } from "framer-motion";
 import "./youtube-hero.css";
 
-/**
- * HeroYouTube.jsx
- * Fullscreen cinematic hero:
- * 1. glossy YouTube logo glides from left (drag sound)
- * 2. crossfade morph into TRON-style scooter (same scale)
- * 3. scooter accelerates right with neon trail (whoosh)
- * 4. screen goes cinematic → giant headline appears (bass)
- * 5. headline shrinks to final cyan + white layout; subtext and CTAs fade in
- *
- * Place optional audio files in:
- *   /public/assets/sfx/drag.mp3
- *   /public/assets/sfx/click.mp3
- *   /public/assets/sfx/whoosh.mp3
- *   /public/assets/sfx/bass.mp3
- *
- * Reduced-motion: simplified fade-in of final state.
- */
-
 export default function HeroYouTube() {
   const rootControls = useAnimation();
   const logoControls = useAnimation();
@@ -29,16 +11,9 @@ export default function HeroYouTube() {
   const finalControls = useAnimation();
   const prefersReduced = useReducedMotion();
 
-  // audio refs (guarded)
-  const audio = useRef({
-    drag: null,
-    click: null,
-    whoosh: null,
-    bass: null,
-  });
+  const audio = useRef({ drag: null, click: null, whoosh: null, bass: null });
 
   useEffect(() => {
-    // safe audio load (won't throw if files missing)
     try { audio.current.drag = new Audio("/assets/sfx/drag.mp3"); } catch {}
     try { audio.current.click = new Audio("/assets/sfx/click.mp3"); } catch {}
     try { audio.current.whoosh = new Audio("/assets/sfx/whoosh.mp3"); } catch {}
@@ -48,7 +23,6 @@ export default function HeroYouTube() {
       if (a) a.volume = 0.85;
     });
 
-    // Reduced-motion fallback: simple fade to final state
     if (prefersReduced) {
       (async () => {
         await rootControls.start({ opacity: 1, transition: { duration: 0.3 } });
@@ -58,32 +32,25 @@ export default function HeroYouTube() {
       return;
     }
 
-    // Main timeline (async await style for crisp sequencing)
     (async () => {
-      // root quick reveal
       await rootControls.start({ opacity: 1, transition: { duration: 0.01 } });
 
-      // 1) Play logo slides in from left (drag sound)
-      audio.current.drag && audio.current.drag.play().catch(()=>{});
+      audio.current.drag && audio.current.drag.play().catch(() => {});
       await logoControls.start({
         x: ["-120%", "6%"],
         opacity: [0, 1],
         transition: { duration: 0.88, ease: [0.2, 1, 0.25, 1] },
       });
 
-      // small settle -> click
       await new Promise((r) => setTimeout(r, 170));
-      audio.current.click && audio.current.click.play().catch(()=>{});
+      audio.current.click && audio.current.click.play().catch(() => {});
 
-      // 2) Crossfade: fade logo out while scooter fades in (same scale)
       await Promise.all([
         logoControls.start({ opacity: 0, transition: { duration: 0.28, ease: [0.32, 1, 0.22, 1] } }),
         scooterControls.start({ opacity: 1, transition: { duration: 0.28, ease: [0.32, 1, 0.22, 1] } }),
       ]);
 
-      // 3) Scooter accelerates across, trigger trail & whoosh
-      audio.current.whoosh && audio.current.whoosh.play().catch(()=>{});
-      // activate trail via CSS toggling
+      audio.current.whoosh && audio.current.whoosh.play().catch(() => {});
       const trail = document.querySelector(".yt-trail-svg");
       if (trail) trail.classList.add("trail-active");
 
@@ -93,27 +60,18 @@ export default function HeroYouTube() {
         transition: { duration: 1.05, ease: [0.22, 1, 0.3, 1] },
       });
 
-      // tiny pause
       await new Promise((r) => setTimeout(r, 180));
 
-      // 4) Large title reveal with bass -> grow then snap shrink
-      audio.current.bass && audio.current.bass.play().catch(()=>{});
+      audio.current.bass && audio.current.bass.play().catch(() => {});
       await titleControls.start({
         opacity: 1,
         scale: [0.72, 1.28],
         transition: { duration: 0.9, ease: [0.22, 1, 0.32, 1] },
       });
 
-      // shrink to final
-      await titleControls.start({
-        scale: 1,
-        transition: { duration: 0.42, ease: [0.22, 1.4, 0.3, 1] },
-      });
+      await titleControls.start({ scale: 1, transition: { duration: 0.42, ease: [0.22, 1.4, 0.3, 1] } });
 
-      // reveal subtext & CTAs
       await finalControls.start({ opacity: 1, transition: { duration: 0.36, ease: "easeOut" } });
-
-      // timeline complete
     })();
   }, [logoControls, scooterControls, titleControls, finalControls, rootControls, prefersReduced]);
 
@@ -130,7 +88,14 @@ export default function HeroYouTube() {
             <stop offset="100%" stopColor="#22d3ee" stopOpacity="0.92" />
           </linearGradient>
         </defs>
-        <path className="trail-path" d="M -200 68 C 80 40, 420 22, 760 42 C 1080 64, 1320 62, 1700 52" stroke="url(#ytTrailGrad)" strokeWidth="28" fill="none" strokeLinecap="round" />
+        <path
+          className="trail-path"
+          d="M -200 68 C 80 40, 420 22, 760 42 C 1080 64, 1320 62, 1700 52"
+          stroke="url(#ytTrailGrad)"
+          strokeWidth="28"
+          fill="none"
+          strokeLinecap="round"
+        />
       </svg>
 
       <motion.div className="yt-hero-inner" initial={{ opacity: 0 }} animate={rootControls}>
@@ -158,19 +123,23 @@ export default function HeroYouTube() {
             </svg>
           </motion.div>
 
-          {/* TRON scooter (fade in then move) */}
+          {/* TRON scooter */}
           <motion.div className="yt-scooter-wrap" initial={{ opacity: 0 }} animate={scooterControls}>
             <svg className="yt-scooter-svg" viewBox="0 0 260 120" width="360" height="170" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-              <!-- chassis -->
+              {/* chassis */}
               <path d="M16 68 C44 34, 94 24, 148 28 L186 32 L200 26 L230 30 L230 54 L200 64 L148 68 Z" fill="#050607" />
-              <!-- white accent -->
+
+              {/* white accent */}
               <rect x="126" y="14" width="48" height="8" rx="3" fill="#ffffff" opacity="0.98" />
-              <!-- neon red wheels -->
+
+              {/* neon red wheels */}
               <circle cx="44" cy="88" r="14" fill="#ff3b30" />
               <circle cx="198" cy="88" r="14" fill="#ff3b30" />
-              <!-- cyan trim -->
+
+              {/* cyan trim */}
               <path d="M76 36 L102 36" stroke="#22d3ee" strokeWidth="4" strokeLinecap="round" />
-              <!-- headlight glow -->
+
+              {/* headlight glow */}
               <circle cx="214" cy="36" r="8" fill="#ff6a4a" opacity="0.95" />
             </svg>
           </motion.div>
