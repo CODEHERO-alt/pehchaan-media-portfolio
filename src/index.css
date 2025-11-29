@@ -1,7 +1,10 @@
-@import "./styles/ui.css";
-
 /* src/index.css */
+
+/* External component CSS */
 @import "./styles/work-detailed.css";
+
+/* Add cinematic glass utilities */
+@import "./styles/ui.css";
 
 @tailwind base;
 @tailwind components;
@@ -96,16 +99,6 @@ a:hover {
   border-radius: 18px;
 }
 
-/* Media + Image Styling */
-img {
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  will-change: transform;
-}
-img:hover {
-  transform: scale(1.02);
-}
-
 /* Buttons / chips focus */
 button:focus, a:focus {
   outline: none;
@@ -155,6 +148,16 @@ button:focus, a:focus {
   border: 1px solid rgba(16,185,129,0.09);
 }
 
+/* Media + Image Styling */
+img {
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+img:hover {
+  transform: scale(1.02);
+}
+
 /* Small responsive helpers */
 @media (max-width: 640px) {
   .rounded-2xl { border-radius: 12px; }
@@ -183,6 +186,3 @@ button:focus, a:focus {
 .rounded-chip:focus {
   box-shadow: 0 0 0 4px rgba(16,185,129,0.08);
 }
-
-/* Add cinematic glass utilities from ui.css for compatibility */
-@import "./styles/ui.css";
